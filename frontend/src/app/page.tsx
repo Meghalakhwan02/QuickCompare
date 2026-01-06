@@ -35,7 +35,7 @@ export default function Home() {
 
     try {
       const backendUrl =
-        process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+      "http://quick-front-test.apps.lab.ocp.lan/";
 
       const formData = new FormData();
       formData.append('image1', image1);
