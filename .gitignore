@@ -1,0 +1,20 @@
+# Node / Next.js
+node_modules/
+frontend/node_modules/
+frontend/.next/
+
+# Java / Maven
+backend/target/
+
+# Env files and local secrets (keep samples like env.example)
+.env
+.env.local
+frontend/.env
+frontend/.env.local
+
+# Logs and OS junk
+npm-debug.log*
+yarn-error.log*
+*.log
+.DS_Store
+

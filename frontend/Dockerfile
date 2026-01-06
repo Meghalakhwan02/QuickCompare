@@ -1,0 +1,19 @@
+# Build and run Next.js app
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install dependencies
+COPY package*.json ./
+RUN npm ci
+
+# Copy source
+COPY . .
+
+# Build
+RUN npm run build
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start"]
+
