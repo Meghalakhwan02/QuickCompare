@@ -35,7 +35,7 @@ export default function Home() {
 
     try {
       const backendUrl =
-      "http://quick-front-test.apps.lab.ocp.lan/";
+        "http://quickcompare-route-test.apps.lab.ocp.lan";
 
       const formData = new FormData();
       formData.append('image1', image1);
