@@ -29,8 +29,30 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Deployment & DevOps
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Critical: Backend API URL
+This project uses Next.js, which means environment variables prefixed with `NEXT_PUBLIC_` are **baked into the static JavaScript bundle at build time**.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+If you do not provide the `NEXT_PUBLIC_API_BASE_URL` during the build step, the application will default to `http://localhost:8080`, and the production API calls will fail.
+
+#### Option 1: Docker (Recommended)
+When building the Docker image, you **must** pass the backend URL as a build argument:
+
+```bash
+docker build --build-arg NEXT_PUBLIC_API_BASE_URL=http://your-production-backend-url.com -t quick-compare-frontend .
+```
+
+#### Option 2: Manual Build
+If building manually on a server:
+
+```bash
+export NEXT_PUBLIC_API_BASE_URL=http://your-production-backend-url.com
+npm run build
+npm run start
+```
+
+### Summary of Requirements
+- **Node.js**: 20+
+- **Internal Port**: 3000
+- **Environment Variable**: `NEXT_PUBLIC_API_BASE_URL` (Required at Build Time)
