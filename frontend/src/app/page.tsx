@@ -34,8 +34,7 @@ export default function Home() {
     setPercentage(null);
 
     try {
-      const backendUrl =
-        "http://quickcompare-route-test.apps.lab.ocp.lan";
+      const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
       const formData = new FormData();
       formData.append('image1', image1);
