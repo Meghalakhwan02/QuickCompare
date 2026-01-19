@@ -1,15 +1,34 @@
-# Build stage
-FROM node:18-alpine AS builder
+# ---------- Build stage ----------
+FROM node:18-bullseye AS builder
+
 WORKDIR /app
-COPY package*.json ./
+
+# Copy dependency files
+COPY package.json package-lock.json ./
+
+# Install dependencies
 RUN npm ci
+
+# Copy source code
 COPY . .
+
+# Build React app
 RUN npm run build
- 
-# Runtime stage
-FROM node:18-alpine
+
+
+# ---------- Production stage ----------
+FROM node:18-bullseye
+
 WORKDIR /app
+
+# Install serve
 RUN npm install -g serve
-COPY --from=builder /app/dist ./dist
+
+# Copy only the build output
+COPY --from=builder /app/build ./build
+
+# Expose port
 EXPOSE 3000
-CMD ["serve", "-s", "dist", "-l", "3000"]
+
+# Serve React build
+CMD ["serve", "-s", "build", "-l", "3000"]
