@@ -5,7 +5,10 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm ci --include=optional
+ENV ROLLUP_DISABLE_NATIVE=1
+ENV NODE_OPTIONS=--max-old-space-size=4096
+
+RUN npm ci
 
 COPY . .
 RUN npm run build
