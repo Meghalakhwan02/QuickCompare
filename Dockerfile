@@ -2,7 +2,7 @@ FROM node:22
 
 WORKDIR /app
 
-# Build-time env for Vite
+# Vite build-time env
 ARG VITE_FACE_API_URL
 ENV VITE_FACE_API_URL=$VITE_FACE_API_URL
 
@@ -18,8 +18,8 @@ COPY . .
 # Build production assets
 RUN npm run build
 
-# Vite preview port (production serve)
-EXPOSE 4173
+# Expose normal port
+EXPOSE 3000
 
-# Serve built app
-CMD ["npm", "run", "preview", "--", "--host"]
+# Serve built app on port 3000
+CMD ["npm", "run", "preview", "--", "--host", "--port", "3000"]
