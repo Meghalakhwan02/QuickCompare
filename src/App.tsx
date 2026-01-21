@@ -33,7 +33,7 @@ export default function App() {
 
     try {
       // Get API URL from environment variable
-      const apiUrl = window._env_?.VITE_FACE_API_URL || '';
+      const apiUrl = window.__ENV__?.VITE_FACE_API_URL || '';
 
       if (!apiUrl) {
         throw new Error('API URL not configured. Please set VITE_FACE_API_URL environment variable.');

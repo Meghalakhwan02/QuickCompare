@@ -9,7 +9,7 @@ interface ImportMeta {
 }
 
 interface Window {
-  _env_?: {
+  __ENV__?: {
     VITE_FACE_API_URL?: string;
   };
 }
