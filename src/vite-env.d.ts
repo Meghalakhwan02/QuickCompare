@@ -7,3 +7,9 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+interface Window {
+  _env_?: {
+    VITE_FACE_API_URL?: string;
+  };
+}
