@@ -5,10 +5,14 @@ ENV VITE_FACE_API_URL=$VITE_FACE_API_URL
 
 WORKDIR /app
 
-COPY package*.json ./
+# Copy only dependency files first
+COPY package.json package-lock.json ./
 
-RUN npm install
+# Install EXACT dependencies (including native rollup binary)
+RUN npm ci
 
+# Copy source code AFTER deps
 COPY . .
 
+# Build
 RUN npm run build
