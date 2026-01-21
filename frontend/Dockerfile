@@ -1,31 +1,21 @@
-FROM node:20-alpine
- 
-ARG NEXT_PUBLIC_API_BASE_URL
+# Stage 1: build
+FROM node:20-alpine AS builder
 
-ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
- 
 WORKDIR /app
- 
-# Install dependencies first
-
 COPY package*.json ./
-
 RUN npm ci
- 
-# Copy source AFTER deps
-
 COPY . .
- 
-# Ensure no stale Next.js build
-
 RUN rm -rf .next
- 
-# Build fresh
-
 RUN npm run build
- 
-EXPOSE 3000
- 
-CMD ["npm", "run", "start"]
 
- 
+# Stage 2: production image
+FROM node:20-alpine
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+
+EXPOSE 3000
+CMD ["npm", "run", "start"]
