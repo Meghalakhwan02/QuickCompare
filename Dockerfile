@@ -2,21 +2,20 @@ FROM node:22
 
 WORKDIR /app
 
-
-# Pass API URL at build time
+# Pass build-time env (optional, Vite reads VITE_ vars at build)
 ARG VITE_FACE_API_URL
 ENV VITE_FACE_API_URL=$VITE_FACE_API_URL
 
-# Copy only package files first
+# Copy package files
 COPY package.json package-lock.json* ./
 
-# Clean install to ensure Linux-native optional deps
-RUN npm ci --ignore-scripts
+# Fresh install with native binaries
+RUN npm ci
 
-# Copy app files
+# Copy source files
 COPY . .
 
 EXPOSE 3000
 
-# Run Vite dev server on all interfaces
+# Start Vite dev server on all interfaces
 CMD ["npx", "vite", "--host", "0.0.0.0", "--port", "3000"]
