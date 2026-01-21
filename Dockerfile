@@ -1,21 +1,25 @@
 FROM node:22
 
+WORKDIR /app
 
+# Build-time env for Vite
 ARG VITE_FACE_API_URL
 ENV VITE_FACE_API_URL=$VITE_FACE_API_URL
 
-WORKDIR /app
+# Copy dependency files
+COPY package.json package-lock.json ./
 
-COPY package.json ./
+# Install dependencies
+RUN npm install --legacy-peer-deps
 
-RUN npm install
-
+# Copy source
 COPY . .
 
-# Build
+# Build production assets
 RUN npm run build
 
-EXPOSE 3000
+# Vite preview port (production serve)
+EXPOSE 4173
 
-CMD ["npm", "run", "start"]
-
+# Serve built app
+CMD ["npm", "run", "preview", "--", "--host"]
