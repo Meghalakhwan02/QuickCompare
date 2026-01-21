@@ -23,10 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
-# env files
-.env
-.env.local
-.env.*.local
+# # env files
+# .env
+# .env.local
+# .env.*.local
 
 # typescript
 *.tsbuildinfo
