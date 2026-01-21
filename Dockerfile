@@ -2,20 +2,24 @@ FROM node:22
 
 WORKDIR /app
 
-# 1. Copy package files only
+# Build-time ARG for API
+ARG VITE_FACE_API_URL
+ENV VITE_FACE_API_URL=$VITE_FACE_API_URL
+
+# Force Rollup JS fallback to avoid native binary errors
+ENV ROLLUP_IGNORE_NATIVE=true
+
+# Copy package files
 COPY package.json package-lock.json* ./
 
-# 2. Remove any pre-existing node_modules (avoid host binaries)
-RUN rm -rf node_modules
+# Clean install inside container (Linux)
+RUN rm -rf node_modules && npm ci
 
-# 3. Install dependencies properly (allow scripts for Rollup native)
-RUN npm ci
-
-# 4. Copy app source
+# Copy app source
 COPY . .
 
-# 5. Expose port
+# Expose port
 EXPOSE 3000
 
-# 6. Start Vite dev server on all interfaces
+# Start Vite dev server on all interfaces
 CMD ["npx", "vite", "--host", "0.0.0.0", "--port", "3000"]
